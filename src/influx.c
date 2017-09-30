@@ -44,7 +44,6 @@ int influxdb_insert_hist(struct record_data *rec)
   {
     // We only insert live data to influxdb,
     // because those are the only ones we are guaranteed to know the timestamp of.
-    printf("Not inserting historical data into influxdb.");
     return 1;
   }
   
@@ -95,7 +94,7 @@ int influxdb_insert_hist(struct record_data *rec)
   strcat(message,payload);                           /* body           */
 
   /* What are we going to send? */
-  printf("Request:\n%s\n",message);
+  //printf("Request:\n%s\n",message);
 
   /* create the socket */
   sockfd = socket(AF_INET, SOCK_STREAM, 0);
@@ -147,7 +146,7 @@ int influxdb_insert_hist(struct record_data *rec)
   close(sockfd);
 
   /* process response */
-  printf("Response:\n%s\n",response);
+  //printf("Response:\n%s\n",response);
 
   free(payload);
   free(message);
