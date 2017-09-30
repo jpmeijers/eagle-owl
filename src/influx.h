@@ -41,7 +41,5 @@
 
 void error(const char *msg);
 int influxdb_insert_hist(struct record_data *rec);
-int main();
-
 
 #endif // __INFLUX_H__
