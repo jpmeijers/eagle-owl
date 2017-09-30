@@ -32,6 +32,7 @@
 #include "cm160.h"
 #include "usb_utils.h"
 #include "db.h"
+#include "influx.h"
 #include "demonize.h"
 
 static char ID_MSG[11] = { 
@@ -123,6 +124,7 @@ void insert_db_history(void *data)
       last_valid_month = rec.month;
 
     db_insert_hist(&rec);
+    influxdb_insert_hist(&rec);
     printf("\r %.1f%%", min(100, 100*((double)i/num_elems)));
     fflush(stdout);
   }
@@ -206,6 +208,7 @@ static int process_frame(int dev_id, unsigned char *frame)
       else
       {
         db_insert_hist(&rec);
+        influxdb_insert_hist(&rec);
         db_update_status();
         process_live_data(&rec); // the record is not live data, but we do that to
                                  // update the time in the .live file
