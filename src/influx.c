@@ -31,10 +31,10 @@
 #include "db.h"
 
 #define INFLUXDB_HOST "localhost"
-#define INFLUXDB_PORT 80
+#define INFLUXDB_PORT 8086
 #define INFLUXDB_DBNAME "eagleowl"
-#define INFLUXDB_VALUENAME "amp"
-
+#define INFLUXDB_KEY "amps"
+#define INFLUXDB_PATH "/write?db=" INFLUXDB_DBNAME
 
 void error(const char *msg) { perror(msg); exit(0); }
 
@@ -55,16 +55,16 @@ int influxdb_insert_hist(struct record_data *rec)
   int i=0;
 
   // Connection details
-  int portno = 80; //INFLUXDB_PORT
-  char* host = "posttestserver.com"; //INFLUXDB_HOST
+  int portno = INFLUXDB_PORT;
+  char* host = INFLUXDB_HOST;
   char* method = "POST";
-  char* path = "/post.php";
+  char* path = INFLUXDB_PATH;
   char* headers[] = {};
 
   char* payload;
-  int payload_size = 3+strlen(INFLUXDB_DBNAME)+strlen(INFLUXDB_VALUENAME)+strlen(amps);
+  int payload_size = strlen(INFLUXDB_KEY)+strlen(" value=")+strlen(amps)+1;
   payload = malloc(payload_size);
-  sprintf(payload, "%s %s=%s", INFLUXDB_DBNAME, INFLUXDB_VALUENAME, amps);
+  sprintf(payload, "%s value=%s", INFLUXDB_KEY, amps);
 
   struct hostent *server;
   struct sockaddr_in serv_addr;
