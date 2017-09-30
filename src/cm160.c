@@ -229,6 +229,7 @@ static int process_frame(int dev_id, unsigned char *frame)
       }
       
       process_live_data(&rec);
+      influxdb_insert_hist(&rec);
       printf("LIVE: %02d/%02d/%04d %02d:%02d : %f W\n",
              rec.day, rec.month, rec.year, rec.hour, rec.min, rec.watts);
     }
